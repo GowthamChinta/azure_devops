@@ -1,18 +1,4 @@
-# Starter pipeline
-- task: SSH@0
-  inputs:
-    sshEndpoint: 'Remote_ssh'
-    runOptions: 'commands'
-    commands: |
-      echo $SHELL
-      
-      echo "Removing exisiting Repo"
-      
-      rm -rf /tmp/aws_automation  
-      cd /tmp/ 
-      git clone git@bitbucket.org:rightdata_dextrus/aws_automation.git 
-      
-    readyTimeout: '20000'
+
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
@@ -24,10 +10,8 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
+- script: |
+    echo "first job"
+    echo "second job"
   displayName: 'Run a one-line script'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
