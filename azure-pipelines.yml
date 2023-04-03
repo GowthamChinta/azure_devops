@@ -9,9 +9,23 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- script: |
-    echo "first job"
-    echo "second job"
-  displayName: 'Run a one-line script'
 
+steps:
+
+- task: InstallSSHKey@0
+  name: sshKey
+  displayName: 'Download SSH key'
+  inputs:
+    knownHostsEntry: "bitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw=="
+    sshKeySecureFile: $(id_rsa)
+
+# - script: |
+#     echo Installing $(sshKey) to the trusted CA directory...
+#     echo "first job"
+#     echo "second job"
+#   inputs:
+#     secureFile: 'myCACertificate.pem'
+#   displayName: 'Run a one-line script'
+
+- bash: git clone git@bitbucket.org:rightdata_dextrus/aws_automation.git
+  displayName: Clone Bitbucket Repo
