@@ -1,4 +1,26 @@
 # Starter pipeline
+- task: SSH@0
+  inputs:
+    sshEndpoint: 'Remote_ssh'
+    runOptions: 'commands'
+    commands: |
+      echo $SHELL
+      
+      echo "Removing exisiting Repo"
+      
+      rm -rf /tmp/aws_automation  && cd /tmp/ && git clone git@bitbucket.org:rightdata_dextrus/aws_automation.git 
+      
+      
+      
+      echo "Running terraform init"
+      
+      cd /tmp/aws_automation/ && git checkout release/1.10 && cd infra/terraform/ec2 && export TF_VAR_access_key='${env.access_key}' && export TF_VAR_secret_key='${env.secret_key}' && terraform init 
+      
+      
+      echo "Running Terraform plan"
+      
+      cd /tmp/aws_automation/ && git checkout release/1.10 && cd infra/terraform/ec2 && export TF_VAR_access_key='${env.access_key}' && export TF_VAR_secret_key='${env.secret_key}' && terraform workspace select prod && terraform plan -var-file $(terraform workspace show).tfvars
+    readyTimeout: '20000'
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
